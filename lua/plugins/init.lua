@@ -57,6 +57,16 @@ return {{
   'ldelossa/calltree.nvim',
   lazy = false
 }, {
+  "hedyhli/outline.nvim",
+  lazy = true,
+  cmd = { "Outline", "OutlineOpen" },
+  keys = { -- Example mapping to toggle outline
+    { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle outline" },
+  },
+  opts = {
+    -- Your setup opts here
+  },
+}, {
     "nvim-treesitter/nvim-treesitter",
     opts = {
         ensure_installed = {"vim", "lua", "vimdoc", "c", "cpp", "cmake", "bash", "python", "lua", "html", "css"},

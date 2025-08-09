@@ -25,7 +25,26 @@ return {{
     opts = function()
         return require "configs.nvimtree"
     end
-}, {"williamboman/mason.nvim"}, {"williamboman/mason-lspconfig.nvim"}, {
+}, {
+    "williamboman/mason.nvim", -- checks for packages on system
+    ensure_installed = {"clangd", "clang-format"}
+}, {
+    "stevearc/conform.nvim",
+    config = function()
+        require("conform").setup({
+            formatters_by_ft = {
+                c = {"clang_format"},
+                cpp = {"clang_format"}
+            },
+            formatters = {
+                clang_format = {
+                    -- args = {"--style=file"} -- Use .clang-format file in project
+                }
+            }
+        })
+    end
+
+}, {
     "neovim/nvim-lspconfig",
     config = function()
         local lsp = require("lspconfig")
@@ -35,11 +54,21 @@ return {{
         }
     end
 }, {
+  'ldelossa/calltree.nvim',
+  lazy = false
+}, {
     "nvim-treesitter/nvim-treesitter",
     opts = {
         ensure_installed = {"vim", "lua", "vimdoc", "c", "cpp", "cmake", "bash", "python", "lua", "html", "css"},
-        highlight = { enable = true },
-        indent = { enable = true },
-    }
-}}
+        highlight = {
+            enable = true
+        },
+        indent = {
+            enable = true
+        }
+    },
+    config = function()
+      require("configs.treesitter")
+    end
+}, {"williamboman/mason-lspconfig.nvim"} }
 -- { import = "nvchad.blink.lazyspec" }, -- test new blink

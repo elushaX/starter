@@ -68,4 +68,13 @@ map("n", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
 map("i", "<X1Mouse>", '<C-o>+', { desc = "Cursor prev" })
 map("i", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
 
+map('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename symbol (LSP)' })
+
+-- context menu
+map('n', '<A-CR>', function()
+  local pos = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_input_mouse('right', 'press', '', 0, pos[1]-1, pos[2])
+  vim.api.nvim_input_mouse('right', 'release', '', 0, pos[1]-1, pos[2])
+end, { noremap = true, silent = true })
+
 return M

@@ -5,10 +5,10 @@ require("nvterm").setup({
     type_opts = {
       float = {
         relative = 'editor',
-        row = 0.3,
-        col = 0.25,
-        width = 0.5,
-        height = 0.4,
+        row = 0.1,
+        col = 0.1,
+        width = 0.7,
+        height = 0.7,
         border = "single",
       },
       horizontal = { location = "rightbelow", split_ratio = .4, },
@@ -37,8 +37,8 @@ local mappings = {
   { 'n', '<C-l>', function () terminal.send(ft_cmds[vim.bo.filetype]) end },
   { toggle_modes, '<A-h>', function () terminal.toggle('horizontal') end },
   -- Ctrl+/ (actually <C-_> in terminal notation)
-  { toggle_modes, '<C-\\>', function () terminal.toggle('vertical') end }, 
-  { toggle_modes, '<A-i>', function () terminal.toggle('float') end },
+  { toggle_modes, '<C-t>', function () terminal.toggle('vertical') end }, 
+  { toggle_modes, '<C-\\>', function () terminal.toggle('float') end },
 }
 
 local opts = { noremap = true, silent = true }

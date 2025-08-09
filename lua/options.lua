@@ -51,6 +51,8 @@ o.wildmode = "list:longest"
 -- o.relativenumber = true
 -- o.expandtab = true
 
+o.scrolloff = 0  -- Disable automatic scrolling when cursor nears window edge
+
 -- Highlighting
 vim.cmd([[
   hi SpecialKey ctermfg=darkgray guifg=gray70

@@ -57,4 +57,15 @@ map("n", "<C-v>", '"+P', { desc = "Paste from clipboard" })
 map("i", "<C-v>", '<C-r>+', { desc = "Paste from clipboard" })
 map("t", "<C-v>", "<C-\\><C-n>\"+P", { desc = "Paste in terminal mode" })
 
+-- cursor jumps
+map("n", "<A-Left>", '<C-o>+', { desc = "Cursor prev" })
+map("n", "<A-Right>", '<C-I>+', { desc = "Cursor next" })
+map("i", "<A-Left>", '<C-o>+', { desc = "Cursor prev" })
+map("i", "<A-Right>", '<C-I>+', { desc = "Cursor next" })
+
+map("n", "<X1Mouse>", '<C-o>+', { desc = "Cursor prev" })
+map("n", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
+map("i", "<X1Mouse>", '<C-o>+', { desc = "Cursor prev" })
+map("i", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
+
 return M

@@ -25,14 +25,21 @@ return {{
     opts = function()
         return require "configs.nvimtree"
     end
-} -- { import = "nvchad.blink.lazyspec" }, -- test new blink
--- {
--- 	"nvim-treesitter/nvim-treesitter",
--- 	opts = {
--- 		ensure_installed = {
--- 			"vim", "lua", "vimdoc",
---      "html", "css"
--- 		},
--- 	},
--- },
-}
+}, {"williamboman/mason.nvim"}, {"williamboman/mason-lspconfig.nvim"}, {
+    "neovim/nvim-lspconfig",
+    config = function()
+        local lsp = require("lspconfig")
+        lsp.clangd.setup {
+            capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            cmd = {"clangd", "--background-index", "--clang-tidy", "--header-insertion=never"}
+        }
+    end
+}, {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+        ensure_installed = {"vim", "lua", "vimdoc", "c", "cpp", "cmake", "bash", "python", "lua", "html", "css"},
+        highlight = { enable = true },
+        indent = { enable = true },
+    }
+}}
+-- { import = "nvchad.blink.lazyspec" }, -- test new blink

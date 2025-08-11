@@ -55,6 +55,6 @@ vim.diagnostic.config({
 
 -- Give them different underline colors
 vim.cmd([[
-  highlight DiagnosticUnderlineError gui=underline guisp=#ff3333
-  highlight DiagnosticUnderlineWarn  gui=underline guisp=#ffaa00
+  highlight DiagnosticUnderlineError gui=undercurl guisp=#ff3333
+  highlight DiagnosticUnderlineWarn  gui=undercurl guisp=#586b03
 ]])

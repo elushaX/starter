@@ -32,84 +32,96 @@ function M.ToggleZenMode()
   end
 end
 
--- Split line into tokens with camelCase and symbol separation
-function M.move_by_sub_word(dir)
-  function tokenize(line)
-    local tokens = {}
-    local token_start = 1
-    local token_type = nil
-
-    local function char_type(ch)
-      if ch:match("%s") then return "space" end
-      if ch:match("[%a%d]") then return "alnum" end
-      return "symbol"
-    end
-
-    local len = #line
-    for i = 1, len do
-      local ch = line:sub(i, i)
-      local ctype = char_type(ch)
-      local prev = (i > 1) and line:sub(i - 1, i - 1) or ""
-      local camel_split = (ctype == "alnum" and ch:match("[A-Z]") and prev:match("[a-z]"))
-
-      if token_type == nil then
-        token_type = ctype
-      elseif ctype ~= token_type or camel_split then
-        table.insert(tokens, { start = token_start, stop = i - 1 })
-        token_start = i
-        token_type = ctype
-      end
-    end
-    table.insert(tokens, { start = token_start, stop = len })
-    return tokens
-  end
-
-
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local line = vim.fn.getline(row)
-  local tokens = tokenize(line)
-
-  if dir == "right" then
-    for _, t in ipairs(tokens) do
-      if col < t.start then
-        vim.api.nvim_win_set_cursor(0, { row, t.start })
-        return
-      end
-    end
-    vim.api.nvim_win_set_cursor(0, { row, #line + 1 }) -- end of line
-  else -- left
-    for i = #tokens, 1, -1 do
-      if col > tokens[i].start then
-        vim.api.nvim_win_set_cursor(0, { row, tokens[i].start })
-        return
-      end
-    end
-    vim.api.nvim_win_set_cursor(0, { row, 1 }) -- start of line
-  end
+-- Helper function to check if a character is a word boundary (space or punctuation)
+local function is_word_boundary(char)
+    return char:match("%s") or char:match("%p")
 end
 
--- Main word movement (space/punct separated, stop at EOL)
+-- Helper function to check if a character is a camelCase boundary
+local function is_camel_boundary(prev_char, curr_char)
+    if not prev_char or not curr_char then return false end
+    -- Check for transition from lowercase to uppercase (e.g., 'n' to 'C' in camelCase)
+    return prev_char:match("[a-z]") and curr_char:match("[A-Z]")
+end
+
+-- Move cursor by word (space/punctuation separated, stop at EOL)
 function M.move_by_word(dir)
-  local col = vim.fn.col(".")
-  local line = vim.fn.getline(".")
-  if dir == "right" then
-    local after = line:sub(col + 1)
-    local pos = after:find("[%s%p]+%S")
-    if pos then
-      vim.fn.cursor(0, col + pos + 1)
-    else
-      vim.fn.cursor(0, #line)
+    local cursor = vim.api.nvim_win_get_cursor(0) -- Example: Neovim API
+    local line_num = cursor[1]
+    local col = cursor[2]
+    local line = vim.api.nvim_get_current_line() -- Get current line text
+    local line_len = #line
+
+    if dir == "right" then -- Forward
+        while col < line_len do
+            col = col + 1
+            local char = line:sub(col, col)
+            if is_word_boundary(char) then
+                -- Skip consecutive boundaries
+                while col < line_len and is_word_boundary(line:sub(col + 1, col + 1)) do
+                    col = col + 1
+                end
+                break
+            end
+        end
+    elseif dir == "left" then -- Backward
+        while col > 1 do
+            col = col - 1
+            local char = line:sub(col, col)
+            if is_word_boundary(char) then
+                -- Skip consecutive boundaries
+                while col > 1 and is_word_boundary(line:sub(col - 1, col - 1)) do
+                    col = col - 1
+                end
+                break
+            end
+        end
     end
-  else -- left
-    local before = line:sub(1, col - 1)
-    local rev = before:reverse()
-    local pos = rev:find("[%s%p]+%S")
-    if pos then
-      vim.fn.cursor(0, col - pos)
-    else
-      vim.fn.cursor(0, 1)
+
+    -- Stop at EOL or beginning of line
+    col = math.max(1, math.min(line_len, col))
+    vim.api.nvim_win_set_cursor(0, {line_num, col}) -- Update cursor position
+end
+
+-- Move cursor by subword (camelCase or underscore separated, stop at EOL)
+function M.move_by_sub_word(dir)
+    local cursor = vim.api.nvim_win_get_cursor(0) -- Example: Neovim API
+    local line_num = cursor[1]
+    local col = cursor[2]
+    local line = vim.api.nvim_get_current_line() -- Get current line text
+    local line_len = #line
+
+    if dir == "right" then -- Forward
+        while col < line_len do
+            col = col + 1
+            local curr_char = line:sub(col, col)
+            local prev_char = col > 1 and line:sub(col - 1, col - 1) or nil
+            if is_word_boundary(curr_char) or is_camel_boundary(prev_char, curr_char) then
+                -- Skip consecutive boundaries
+                while col < line_len and is_word_boundary(line:sub(col + 1, col + 1)) do
+                    col = col + 1
+                end
+                break
+            end
+        end
+    elseif dir == "left" then -- Backward
+        while col > 1 do
+            col = col - 1
+            local curr_char = line:sub(col, col)
+            local prev_char = col > 1 and line:sub(col - 1, col - 1) or nil
+            if is_word_boundary(curr_char) or is_camel_boundary(prev_char, curr_char) then
+                -- Skip consecutive boundaries
+                while col > 1 and is_word_boundary(line:sub(col - 1, col - 1)) do
+                    col = col - 1
+                end
+                break
+            end
+        end
     end
-  end
+
+    -- Stop at EOL or beginning of line
+    col = math.max(1, math.min(line_len, col))
+    vim.api.nvim_win_set_cursor(0, {line_num, col}) -- Update cursor position
 end
 
 -- Function to reload config without losing session

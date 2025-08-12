@@ -70,11 +70,44 @@ map("i", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
 
 map('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename symbol (LSP)' })
 
--- context menu
-map('n', '<A-CR>', function()
-  local pos = vim.api.nvim_win_get_cursor(0)
-  vim.api.nvim_input_mouse('right', 'press', '', 0, pos[1]-1, pos[2])
-  vim.api.nvim_input_mouse('right', 'release', '', 0, pos[1]-1, pos[2])
-end, { noremap = true, silent = true })
+-- Tab to indent in visual mode and keep selection
+map("v", "<Tab>", ">gv", { noremap = true, silent = true })
+map("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
+map("n", "<Tab>", ":ls t", { noremap = true, silent = true })
+
+map("n", "<Tab>", "<cmd>b#<CR>", { noremap = true, silent = true })
+
+
+-- Keymaps for subword movement
+map("n", "<C-A-Right>", function() functions.move_by_sub_word("right") end, { silent = true })
+map("n", "<C-A-Left>",  function() functions.move_by_sub_word("left") end,  { silent = true })
+map("n", "<C-Right>", function() functions.move_by_word("right") end, { silent = true })
+map("n", "<C-Left>", function() functions.move_by_word("left") end, { silent = true })
+
+map('n', '<BS>', '"_X', { noremap = true, silent = true })
+map('v', '<BS>', '"_d', { noremap = true, silent = true })
+
+
+-- yanker
+map("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)")
+map("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
+map("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
+map("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
+
+map("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
+map("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
+map("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
+map("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
+
+map("n", "=p", "<Plug>(YankyPutAfterFilter)")
+map("n", "=P", "<Plug>(YankyPutBeforeFilter)")
+
+map({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+map({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+map({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+map({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+
+-- map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+-- map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
 return M

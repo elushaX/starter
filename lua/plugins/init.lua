@@ -80,5 +80,28 @@ return {{
     config = function()
       require("configs.treesitter")
     end
-}, {"williamboman/mason-lspconfig.nvim"} }
+},
+{
+  "gbprod/yanky.nvim",
+  lazy = false, 
+  opts = { 
+    highlight = {
+      on_put = false,
+      on_yank = false,
+      timer = 0,
+    },
+  },
+  dependencies = { "folke/snacks.nvim" },
+  keys = {
+    {
+      "<leader>p",
+      function()
+          Snacks.picker.yanky()
+      end,
+      mode = { "n", "x" },
+      desc = "Open Yank History",
+    },
+  }
+},
+{"williamboman/mason-lspconfig.nvim"} }
 -- { import = "nvchad.blink.lazyspec" }, -- test new blink

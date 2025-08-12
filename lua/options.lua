@@ -53,7 +53,11 @@ o.wildmode = "list:longest"
 
 o.scrolloff = 0  -- Disable automatic scrolling when cursor nears window edge
 
-vim.cmd([[set mousescroll=ver:7]])
+o.guicursor = "a:ver25"
+
+vim.cmd([[
+  set mousescroll=ver:7
+]])
 
 -- Highlighting
 vim.cmd([[

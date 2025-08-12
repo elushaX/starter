@@ -8,7 +8,7 @@ lsp-renaming
 gitblame
 tab switcher
 
-show file full name in status
+show e in status
 
 toggle line comment
 

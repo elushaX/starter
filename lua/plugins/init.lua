@@ -112,6 +112,6 @@ return {{
             filetypes_denylist = { "NvimTree", "TelescopePrompt" }
         })
     end
-}, 
+},
 {"williamboman/mason-lspconfig.nvim"} }
 -- { import = "nvchad.blink.lazyspec" }, -- test new blink

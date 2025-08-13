@@ -58,3 +58,9 @@ vim.cmd([[
   highlight DiagnosticUnderlineError gui=undercurl guisp=#ff3333
   highlight DiagnosticUnderlineWarn  gui=undercurl guisp=#586b03
 ]])
+
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorMoved" }, {
+  callback = function()
+    require("functions").show_cursor_diagnostic()
+  end
+})

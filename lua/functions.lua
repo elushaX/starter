@@ -172,4 +172,34 @@ function M.git_blame()
   return string.format(" %s [%s]", author, commit:sub(1, 8))
 end
 
+M.show_cursor_diagnostic = function()
+  -- Get diagnostics for current line & column
+  local line = vim.fn.line(".") - 1
+  local col = vim.fn.col(".") - 1
+
+  local diags = vim.diagnostic.get(0, {
+    lnum = line
+  })
+
+  -- Find diagnostic that covers the cursor position
+  local msg = nil
+  for _, d in ipairs(diags) do
+    if d.col <= col and col < d.end_col then
+      msg = d.message
+      break
+    end
+  end
+
+  -- Remove any previous namespace annotations
+  local ns = vim.api.nvim_create_namespace("cursor_diagnostic")
+  vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+
+  if msg then
+    vim.api.nvim_buf_set_extmark(0, ns, line, 0, {
+      virt_text = { { " " .. msg, "DiagnosticVirtualTextWarn" } },
+      virt_text_pos = "eol",
+    })
+  end
+end
+
 return M

@@ -135,4 +135,41 @@ function _G.ReloadConfig()
   print("Config reloaded!")
 end
 
+
+function M.git_blame()
+  if vim.fn.executable("git") == 0 then
+    return ""
+  end
+
+  local file = vim.fn.expand("%")
+  if file == "" or vim.fn.filereadable(file) == 0 then
+    return ""
+  end
+
+  local line = vim.fn.line(".")
+  local cmd = string.format("git blame -L %d,+1 --porcelain -- %s", line, file)
+  local result = vim.fn.systemlist(cmd)
+
+  if #result == 0 or result[1]:match("^fatal") then
+    return ""
+  end
+
+  local author = ""
+  local commit = result[1]:match("^(%S+)")
+  for _, l in ipairs(result) do
+    local a = l:match("^author (.+)")
+    if a then
+      author = a
+      break
+    end
+  end
+
+  if commit == "0000000000000000000000000000000000000000" then
+    return "Not committed yet"
+  end
+
+
+  return string.format(" %s [%s]", author, commit:sub(1, 8))
+end
+
 return M

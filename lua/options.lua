@@ -1,4 +1,5 @@
 require "nvchad.options"
+local functions = require('functions')
 
 local o = vim.o
 
@@ -54,6 +55,10 @@ o.wildmode = "list:longest"
 o.scrolloff = 0  -- Disable automatic scrolling when cursor nears window edge
 
 o.guicursor = "a:ver25"
+
+
+o.winbar = "%f %=%{v:lua.require'functions'.git_blame()}"
+
 
 vim.cmd([[
   set mousescroll=ver:7

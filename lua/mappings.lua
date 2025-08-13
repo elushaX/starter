@@ -73,10 +73,7 @@ map('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename symbol (
 -- Tab to indent in visual mode and keep selection
 map("v", "<Tab>", ">gv", { noremap = true, silent = true })
 map("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
-map("n", "<Tab>", ":ls t", { noremap = true, silent = true })
-
 map("n", "<Tab>", "<cmd>b#<CR>", { noremap = true, silent = true })
-
 
 -- Keymaps for subword movement
 map("n", "<C-A-Right>", function() functions.move_by_sub_word("right") end, { silent = true })
@@ -109,5 +106,21 @@ map({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
 
 -- map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 -- map("n", "<c-n>", "<Plug>(YankyNextEntry)")
+
+map('n', '<F12>', vim.lsp.buf.definition)
+map('n', '<F11>', functions.telescope.lsp_references)
+
+-- renaming 
+map('n', '<F2>', ':%s/\\<<C-r><C-w>\\>//g<Left><Left>', { noremap = true })
+map('v', '<F2>', function()
+    -- Yank visual selection into register h
+    vim.cmd('normal! "hy')
+    -- Pre-fill the substitute command, put cursor before the last //
+    vim.api.nvim_feedkeys(
+        vim.api.nvim_replace_termcodes(':%s/<C-r>h//gc<Left><Left><Left>', true, false, true),
+        'c',
+        false
+    )
+end, { noremap = true, silent = false })
 
 return M

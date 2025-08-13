@@ -103,5 +103,15 @@ return {{
     },
   }
 },
+{
+    "RRethy/vim-illuminate",
+    lazy = false,
+    config = function()
+        require('illuminate').configure({
+            delay = 0,
+            filetypes_denylist = { "NvimTree", "TelescopePrompt" }
+        })
+    end
+}, 
 {"williamboman/mason-lspconfig.nvim"} }
 -- { import = "nvchad.blink.lazyspec" }, -- test new blink

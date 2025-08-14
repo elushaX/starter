@@ -13,3 +13,5 @@ show e in status
 toggle line comment
 
 change cland warnings style
+
+backspace and delete + ctrl to remove words in all modes

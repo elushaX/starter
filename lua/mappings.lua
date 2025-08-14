@@ -30,6 +30,7 @@ map("n", "<Leader><Leader>", ":nohlsearch<CR>", { desc = "clear search highlight
 map("n", "<C-f>", ":Format<CR>", { desc = "format file" })
 map("n", "<Leader>cc", ":ClangdSwitchSourceHeader<CR>", { desc = "switch source/header" })
 map("n", "t", functions.SwitchBuffer, { desc = "switch buffer" })
+map("n", "Tab.", functions.SwitchBuffer, { desc = "switch buffer" })
 map("n", "<Leader>tt", "<cmd>Telescope<CR>", { desc = "open telescope" })
 map("n", "<Leader>ll", "<cmd>lua require('persistence').load({ last = true })<cr>", { desc = "load last session" })
 map("n", "<Leader>ld", "<cmd>lua BuffersDelete()<cr>", { desc = "clear current session" })
@@ -68,7 +69,7 @@ map("n", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
 map("i", "<X1Mouse>", '<C-o>+', { desc = "Cursor prev" })
 map("i", "<X2Mouse>", '<C-I>+', { desc = "Cursor next" })
 
-map('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename symbol (LSP)' })
+map('n', '<Leader>dr', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename symbol (LSP)' })
 
 -- Tab to indent in visual mode and keep selection
 map("v", "<Tab>", ">gv", { noremap = true, silent = true })

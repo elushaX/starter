@@ -9,12 +9,23 @@ function M.SwitchBuffer()
     -- sort_lastused = true,
     ignore_current_buffer = true,
     layout_config = { width = 0.3, height = 0.8, prompt_position = "bottom" },
-    startinsert = false,
+    startinsert = true,
   }
   M.telescope.buffers(settings)
 end
 
 vim.g.hidden_all = 0
+
+function M.LUB()
+    bufnrs = { "" }
+    if vim.tbl_isempty(bufnrs) then
+        vim.print("No modified buffers")
+    else
+        M.telescope.buffers { 
+          bufnrs = bufnrs
+        }
+    end
+end
 
 function M.ToggleZenMode()
   if vim.g.hidden_all == 0 then

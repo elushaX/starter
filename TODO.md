@@ -9,7 +9,7 @@
 + clang tidy
 
 +lsp
-lsp-renaming
++lsp-renaming
 
 gitblame
 tab switcher
@@ -23,3 +23,12 @@ change cland warnings style
 backspace and delete + ctrl to remove words in all modes
 
 checkout https://github.com/Slotos/telescope-lsp-handlers.nvim
+
+general:
+    use TAB and shift tab to indent 
+
+
+    navigation:
+        goto line
+        ctrl left go word
+        ctrl alt left go snakeCaseWord

@@ -27,7 +27,7 @@ return {{
     end
 }, {
     "williamboman/mason.nvim", -- checks for packages on system
-    ensure_installed = {"clangd", "clang-format"}
+    ensure_installed = {"clangd", "clang-format", "tree-sitter"}
 }, {
     "stevearc/conform.nvim",
     config = function()
@@ -102,6 +102,12 @@ return {{
       desc = "Open Yank History",
     },
   }
+}, {
+  "ibhagwan/fzf-lua",
+  -- optional for icon support
+  dependencies = { "nvim-tree/nvim-web-devicons" }, -- or if using mini.icons/mini.nvim
+  -- dependencies = { "echasnovski/mini.icons" },
+  opts = {} -- You can add your fzf-lua configurations here
 },
 {
     "RRethy/vim-illuminate",

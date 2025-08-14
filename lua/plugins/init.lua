@@ -91,7 +91,7 @@ return {{
       timer = 0,
     },
   },
-  dependencies = { "folke/snacks.nvim" },
+  -- dependencies = { "folke/snacks.nvim" },
   keys = {
     {
       "<leader>p",

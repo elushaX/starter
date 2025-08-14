@@ -26,7 +26,8 @@ checkout https://github.com/Slotos/telescope-lsp-handlers.nvim
 
 general:
     use TAB and shift tab to indent 
-
+    
+    highlight lsp variables under cursor
 
     navigation:
         goto line

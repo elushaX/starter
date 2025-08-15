@@ -1,6 +1,9 @@
 require "nvchad.mappings"
 local functions = require('functions')
 
+local builtin = require("telescope.builtin")
+local utils = require("telescope.utils")
+
 local map = vim.keymap.set
 
 -- UI Toggles
@@ -43,20 +46,53 @@ map("n", "<Leader>ee", "<cmd>lua NVTreeToggleBufferView()<cr>", { desc = "show o
 -- Telescope Mappings
 map("n", "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "fzf in file" })
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Live grep" })
-map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
+-- map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Live grep" })
+-- map("n", "<leader>ff", function() builtin.find_files({ cwd = utils.buffer_dir() }) end, { desc = "Find buffers" })
+map("n", "<leader>fw", function() builtin.live_grep({ cwd = utils.buffer_dir() }) end, { desc = "Find buffers" })
 
 -- Select entire buffer
 map("n", "<C-a>", "ggVG", { desc = "Select all content" })
 map("v", "<C-a>", "ggVG", { desc = "Select all content" })
 map("i", "<C-a>", "<Esc>ggVG", { desc = "Select all content" })
 
--- Copy (visual mode only - prevents conflict with command mode)
-map("v", "<C-c>", '"+y', { desc = "Copy selection to clipboard" })
-map("v", "<C-x>", '"+d', { desc = "Cut selection to clipboard" })
-map("n", "<C-v>", '"+P', { desc = "Paste from clipboard" })
-map("i", "<C-v>", '<C-r>+', { desc = "Paste from clipboard" })
-map("t", "<C-v>", "<C-\\><C-n>\"+P", { desc = "Paste in terminal mode" })
+vim.cmd([[
+nnoremap d <Nop>
+nnoremap x <Nop>
+nnoremap p <Nop>
+nnoremap P <Nop>
+
+nnoremap u <Nop>
+nnoremap <C-q> <Nop> -- fixme
+]])
+
+
+map("n", "<C-z>", 'u', { noremap = true, silent = true })
+map("n", "<C-q>", 'qa', { noremap = true, silent = true }) -- fixme
+
+function setupClipboard()
+
+ 
+  -- delete
+  -- map("n", "<C-d>", 'V"_d', { noremap = true, silent = true })
+  map("n", "<C-d>", '"_dd', { noremap = true, silent = true })
+
+  map("n", "<C-v>", '"+P', { desc = "Paste from clipboard" })
+
+  -- cut
+  map("n", "<C-x>", 'V"+d', { noremap = true, silent = true })
+  -- map("n", "<C-x>", '"+dd', { noremap = true, silent = true })
+
+  -- map("v", "<d>", '"_d', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
+  -- map("n", "<d>", '"_x', { noremap = true, silent = true, desc = "Copy selection to clipboard" })
+  map("v", "<C-c>", '"+y', { desc = "Copy selection to clipboard" })
+  map("v", "<C-x>", '"+d', { desc = "Cut selection to clipboard" })
+  map("i", "<C-v>", '<C-r>+', { desc = "Paste from clipboard" })
+  map("t", "<C-v>", "<C-\\><C-n>\"+P", { desc = "Paste in terminal mode" })
+  map('n', '<BS>', '"_X', { noremap = true, silent = true })
+  map('v', '<BS>', '"_d', { noremap = true, silent = true })
+end
+
+setupClipboard()
 
 -- cursor jumps
 map("n", "<A-Left>", '<C-o>+', { desc = "Cursor prev" })
@@ -82,34 +118,14 @@ map("n", "<C-A-Left>",  function() functions.move_by_sub_word("left") end,  { si
 map("n", "<C-Right>", function() functions.move_by_word("right") end, { silent = true })
 map("n", "<C-Left>", function() functions.move_by_word("left") end, { silent = true })
 
-map('n', '<BS>', '"_X', { noremap = true, silent = true })
-map('v', '<BS>', '"_d', { noremap = true, silent = true })
 
-
--- yanker
-map("n", "]p", "<Plug>(YankyPutIndentAfterLinewise)")
-map("n", "[p", "<Plug>(YankyPutIndentBeforeLinewise)")
-map("n", "]P", "<Plug>(YankyPutIndentAfterLinewise)")
-map("n", "[P", "<Plug>(YankyPutIndentBeforeLinewise)")
-
-map("n", ">p", "<Plug>(YankyPutIndentAfterShiftRight)")
-map("n", "<p", "<Plug>(YankyPutIndentAfterShiftLeft)")
-map("n", ">P", "<Plug>(YankyPutIndentBeforeShiftRight)")
-map("n", "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)")
-
-map("n", "=p", "<Plug>(YankyPutAfterFilter)")
-map("n", "=P", "<Plug>(YankyPutBeforeFilter)")
-
-map({"n","x"}, "p", "<Plug>(YankyPutAfter)")
-map({"n","x"}, "P", "<Plug>(YankyPutBefore)")
-map({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
-map({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
-
--- map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
--- map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
 map('n', '<F12>', vim.lsp.buf.definition)
 map('n', '<F11>', functions.telescope.lsp_references)
+
+-- removal
+map('n', '<leader>d', '\"_d', { noremap = true })
+-- map('n', '<leader>dd', '\"_dd', { noremap = true })
 
 -- renaming 
 map('n', '<F2>', ':%s/\\<<C-r><C-w>\\>//g<Left><Left>', { noremap = true })

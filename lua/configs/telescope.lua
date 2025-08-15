@@ -1,14 +1,16 @@
 local options = {
   defaults = {
+    dynamic_preview_title = true,
     vimgrep_arguments = {
       "rg",
       "-L",
       "--color=never",
       "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
+      -- "--with-filename",
+      -- "--line-number",
+      -- "--column",
       "--smart-case",
+      -- "--fixed-strings",
     },
     prompt_prefix = "   ",
     selection_caret = "  ",
@@ -33,9 +35,13 @@ local options = {
     file_sorter = require("telescope.sorters").get_fuzzy_file,
     file_ignore_patterns = { "node_modules" },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-    path_display = { "truncate" },
+    path_display = { 
+      "filename_first",
+      "truncate"
+      -- "tail"
+    },
     winblend = 0,
-    border = {},
+    -- border = {},
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     color_devicons = true,
     set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
@@ -44,9 +50,38 @@ local options = {
     qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+
     mappings = {
       n = { ["q"] = require("telescope.actions").close },
+      i = { ["<esc>"] = require("telescope.actions").close },
+      i = { ["<C-q>"] = require("telescope.actions").close },
     },
+  },
+
+  pickers = {
+    live_grep = {
+      path_display = { 
+        "filename_first",
+        "truncate"
+      },
+      vimgrep_arguments = {
+        "rg",
+        "-L",
+        "--color=never",
+        "--no-heading",
+        -- "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+        -- "--fixed-strings",
+        },
+    },
+    find_files = {
+      path_display = { 
+        "filename_first",
+        "truncate"
+      },
+    }
   },
 
   extensions_list = { "themes", "terms", "fzf" },

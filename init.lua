@@ -31,6 +31,7 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "autocmds"
+require "contextMenu"
 require "functions"
 
 vim.schedule(function()

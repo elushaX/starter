@@ -35,5 +35,5 @@ require "contextMenu"
 require "functions"
 
 vim.schedule(function()
-  require "mappings"
+  require "mappings/init"
 end)

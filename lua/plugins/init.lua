@@ -97,5 +97,16 @@ return {{
         })
     end
 },
+{
+  "sindrets/diffview.nvim",
+  lazy = false,
+}, {
+  lazy = false,
+  "nvim-telescope/telescope-file-browser.nvim",
+  dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+        require('configs.filebrowser-telescope')
+    end
+},
 {"williamboman/mason-lspconfig.nvim"} }
 -- { import = "nvchad.blink.lazyspec" }, -- test new blink

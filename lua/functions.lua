@@ -57,6 +57,8 @@ end
 
 -- Move cursor by word (space/punctuation separated, stop at EOL)
 function M.move_by_word(dir)
+    vim.cmd("w")
+
     local cursor = vim.api.nvim_win_get_cursor(0) -- Example: Neovim API
     local line_num = cursor[1]
     local col = cursor[2]

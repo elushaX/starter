@@ -18,7 +18,7 @@ M.base46 = {
 }
 
 M.nvdash = {
-    load_on_startup = true
+    load_on_startup = false
 }
 
 M.ui = {
@@ -30,5 +30,20 @@ M.ui = {
 		theme = "vscode",
 	},
 }
+
+
+if vim.g.neovide then
+  vim.g.neovide_cursor_animation_length = 0.04
+  vim.g.neovide_cursor_trail_size = 0
+
+  vim.g.neovide_floating_shadow = true
+  vim.g.neovide_floating_z_height = 20
+  vim.g.neovide_light_angle_degrees = 45
+  vim.g.neovide_light_radius = 19
+  vim.g.neovide_floating_corner_radius = 4
+  vim.g.neovide_scale_factor = 0.8
+
+    -- " Put anything you want to happen only in Neovide here"
+end
 
 return M

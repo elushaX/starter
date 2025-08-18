@@ -42,7 +42,6 @@ if vim.g.neovide then
   vim.g.neovide_light_radius = 19
   vim.g.neovide_floating_corner_radius = 4
   vim.g.neovide_scale_factor = 0.8
-
     -- " Put anything you want to happen only in Neovide here"
 end
 

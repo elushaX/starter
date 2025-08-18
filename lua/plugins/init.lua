@@ -108,5 +108,18 @@ return {{
         require('configs.filebrowser-telescope')
     end
 },
+
+{ 
+  'dstein64/nvim-scrollview', 
+  lazy = true,
+  config = function()
+    require('scrollview').setup({
+      excluded_filetypes = {'nerdtree'},
+      current_only = true,
+      signs_on_startup = {'all'},
+      diagnostics_severities = {vim.diagnostic.severity.ERROR}
+    })
+  end
+},
 {"williamboman/mason-lspconfig.nvim"} }
 -- { import = "nvchad.blink.lazyspec" }, -- test new blink

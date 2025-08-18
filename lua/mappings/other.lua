@@ -64,8 +64,8 @@ map('n', '<F12>', vim.lsp.buf.definition)
 map('n', '<F2>', rename_cmd, { noremap = true })
 map('v', '<F2>', rename,  { noremap = true, silent = false })
 
-map("n", "t", functions.SwitchBuffer, { desc = "switch buffer" })
-map("n", "<C-Tab>.", functions.SwitchBuffer, { desc = "switch buffer" })
+-- map("n", "t", functions.SwitchBuffer, { desc = "switch buffer" })
+map("n", "<C-Tab>", functions.SwitchBuffer, { desc = "switch buffer" })
 
 map("n", "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "fzf in file" })
 map("n", "<S-h>", functions.ToggleZenMode, { desc = "Toggle all UI elements (mode, ruler, statusline)" })

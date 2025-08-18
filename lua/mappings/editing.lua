@@ -37,6 +37,7 @@ end
 map("n", "<C-d>", '"_dd', { noremap = true, silent = true })
 map("n", "<C-v>", '"+P', { desc = "Paste from clipboard" })
 map("n", "<C-x>", 'V"+d', { noremap = true, silent = true })
+map("n", "<C-c>", 'V"+y', { desc = "Copy selection to clipboard" })
 map("v", "<C-c>", '"+y', { desc = "Copy selection to clipboard" })
 map("v", "<C-x>", '"+d', { desc = "Cut selection to clipboard" })
 map("i", "<C-v>", '<C-r>+', { desc = "Paste from clipboard" })
